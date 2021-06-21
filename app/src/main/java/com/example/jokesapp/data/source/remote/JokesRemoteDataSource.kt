@@ -14,7 +14,7 @@ import javax.inject.Singleton
 @Singleton
 class JokesRemoteDataSource @Inject constructor(private val apiService: ApiService){
 
-    suspend fun getAllJokes(): Flow<ApiResponse<List<ResponseJokesItem?>>> {
+    suspend fun getAllJokes(): Flow<ApiResponse<List<ResponseJokesItem>>> {
         return flow {
             try {
                 val response = apiService.getAllJokes()
@@ -26,7 +26,7 @@ class JokesRemoteDataSource @Inject constructor(private val apiService: ApiServi
                         emit(ApiResponse.Empty)
                 }
             } catch (e: Exception){
-                emit(ApiResponse.Error(e.message.toString()))
+                emit(ApiResponse.Error(e.toString()))
             }
         }.flowOn(Dispatchers.IO)
     }
