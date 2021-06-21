@@ -23,7 +23,10 @@ class MainActivity : AppCompatActivity() {
             .observe(this, { jokes ->
                 when (jokes){
                     is Resource.Loading -> Log.i("MainActivity", "Data Loading")
-                    is Resource.Success -> Log.i("MainActivity", "Data ${jokes.data}")
+                    is Resource.Success -> {
+                        Toast.makeText(this, "${jokes.data}", Toast.LENGTH_SHORT).show()
+                        Log.i("MainActivity", "Data ${jokes.data}")
+                    }
                     is Resource.Error -> Log.i("MainActivity", "Data ${jokes.message}")
                 }
             })
