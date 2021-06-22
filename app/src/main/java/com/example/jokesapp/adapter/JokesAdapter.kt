@@ -64,14 +64,13 @@ class JokesAdapter : RecyclerView.Adapter<JokesAdapter.ViewHolder>(){
                         }
                     }
 
-                    if (!isExpand){
+                    if (absoluteAdapterPosition == selectedItem){
                         Log.i("JokesAdapter", "old: $selectedItem / new: $absoluteAdapterPosition ")
-                        isExpand = true
+//                        isExpand = true
+                        selectedItem = UNSELECTED
+                    } else {
                         selectedItem = absoluteAdapterPosition
                         expandableLayout.expand()
-                    } else {
-                        isExpand = false
-                        expandableLayout.collapse()
                     }
                 }
             }

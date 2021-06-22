@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
+    private lateinit var chaks: Unit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         binding.rvJokes.adapter = adapter
         binding.rvJokes.setHasFixedSize(true)
 
-        viewModel.jokes
+        chaks = viewModel.jokes
             .observe(this, { jokes ->
                 when (jokes){
                     is Resource.Loading -> {
@@ -52,6 +53,8 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             })
+
+
 
     }
 
