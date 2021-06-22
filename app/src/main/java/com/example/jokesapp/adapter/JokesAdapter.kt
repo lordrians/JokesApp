@@ -1,19 +1,26 @@
 package com.example.jokesapp.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.view.animation.OvershootInterpolator
+import android.widget.TextView
+import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
+import com.example.jokesapp.R
 import com.example.jokesapp.data.source.local.entity.JokesEntity
 import com.example.jokesapp.databinding.ItemJokesBinding
+import com.example.jokesapp.ui.MainActivity
+import kotlinx.android.synthetic.main.item_jokes.view.*
+import net.cachapa.expandablelayout.ExpandableLayout
 
 class JokesAdapter : RecyclerView.Adapter<JokesAdapter.ViewHolder>(){
-
     private val UNSELECTED = -1
     private var selectedItem = UNSELECTED
-
+    private lateinit var recyclerView: RecyclerView
     private var listData = ArrayList<JokesEntity>()
-
 
     @SuppressLint("NotifyDataSetChanged")
     fun setData(newListData: List<JokesEntity>){
@@ -22,38 +29,55 @@ class JokesAdapter : RecyclerView.Adapter<JokesAdapter.ViewHolder>(){
         notifyDataSetChanged()
     }
 
-
-    inner class ViewHolder (
-        private val binding: ItemJokesBinding
-        ): RecyclerView.ViewHolder(binding.root){
-            fun bind(joke: JokesEntity){
-                val position = absoluteAdapterPosition
-                val isSelected = position == selectedItem
-                with(binding){
-                    tvSetup.text = joke.setup
-                    tvPunchline.text = joke.punchline
-                    root.setOnClickListener {
-                        tvSetup.isSelected = false
-                        expandableLayout.collapse()
-                    }
-                    val position = absoluteAdapterPosition
-                    if (position == selectedItem){
-                        selectedItem = UNSELECTED
-                    } else {
-                        expandableLayout.expand()
-                        selectedItem = position
-                    }
-                }
-            }
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        this.recyclerView = recyclerView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemJokesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder((binding))
+        return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) =
-        holder.bind(listData[position])
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        return holder.bind(listData[position])
+    }
 
     override fun getItemCount(): Int = this.listData.size
+
+
+    inner class ViewHolder(private val binding: ItemJokesBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(joke: JokesEntity){
+            binding.apply {
+                var isExpand = false
+                tvSetup.text = joke.setup
+                tvPunchline.text = joke.punchline
+
+                tvSetup.setOnClickListener {
+
+                    if (selectedItem != UNSELECTED){
+                        val holder = recyclerView.findViewHolderForAdapterPosition(selectedItem) as ViewHolder
+
+                        if (holder.binding != null){
+                            holder.binding.expandableLayout.collapse()
+                        }
+                    }
+
+                    if (!isExpand){
+                        Log.i("JokesAdapter", "old: $selectedItem / new: $absoluteAdapterPosition ")
+                        isExpand = true
+                        selectedItem = absoluteAdapterPosition
+                        expandableLayout.expand()
+                    } else {
+                        isExpand = false
+                        expandableLayout.collapse()
+                    }
+                }
+            }
+
+
+
+        }
+    }
 }

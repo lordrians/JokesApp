@@ -17,6 +17,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    companion object{
+        var oldPosition: Int? = null
+    }
+
     private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
 
