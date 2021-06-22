@@ -19,9 +19,11 @@ class JokesRepostiroy @Inject constructor(
     private val localDataSource: JokesLocalDataSource
 ): ImpJokesRepository {
 
+    //Ngambil data langsung ke api
     suspend fun getLiveData(): Flow<ApiResponse<List<ResponseJokesItem>>> {
         return remoteDataSource.getAllJokes()
     }
+    //ngambil data buat ke db
     override fun getAllJokes(): Flow<Resource<List<JokesEntity>>> {
         return object : NetworkBoundResource<List<JokesEntity>, List<ResponseJokesItem>>() {
             override fun loadFromDB(): Flow<List<JokesEntity>> {
