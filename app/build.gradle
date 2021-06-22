@@ -86,4 +86,6 @@ dependencies {
     implementation "androidx.sqlite:sqlite-ktx:2.1.0"
     //shimmer
     implementation "com.facebook.shimmer:shimmer:0.5.0"
+    //ExpandableLayout
+    implementation 'com.github.cachapa:ExpandableLayout:2.9.2'
 }
