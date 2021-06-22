@@ -6,6 +6,7 @@
         <entry key="app/src/main/res/drawable/list_item_background.xml" value="0.11203703703703703" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.26101694915254237" />
         <entry key="app/src/main/res/layout/item_jokes.xml" value="0.2828125" />
+        <entry key="app/src/main/res/layout/shimmer_jokes.xml" value="0.14947916666666666" />
       </map>
     </option>
   </component>

@@ -13,6 +13,7 @@ import com.example.jokesapp.DataMapper
 import com.example.jokesapp.R
 import com.example.jokesapp.adapter.JokesAdapter
 import com.example.jokesapp.data.Resource
+import com.example.jokesapp.data.source.local.entity.JokesEntity
 import com.example.jokesapp.data.source.remote.network.ApiResponse
 import com.example.jokesapp.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: JokesAdapter
+    private var dummyList: List<JokesEntity> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,10 +64,12 @@ class MainActivity : AppCompatActivity() {
                 is ApiResponse.Error -> {
                     isProgressDone(true)
                     showSnackbar(jokes.errorMessage)
+                    adapter.setData(dummyList)
                     Log.i("MainActivity", "observeData error: ${jokes.errorMessage}")
                 }
                 is ApiResponse.Empty -> {
                     isProgressDone(true)
+                    adapter.setData(dummyList)
                     Log.i("MainActivity", "observeData empty: ${jokes}")
                 }
             }
@@ -76,8 +80,7 @@ class MainActivity : AppCompatActivity() {
     private fun showSnackbar(message: String){
         Snackbar.make(binding.root,message,Snackbar.LENGTH_INDEFINITE)
             .setAction("Retry"){
-
-                binding.progressBar.isVisible = true
+                isProgressDone(false)
                 viewModel.getLiveData()
             }
             .show()
@@ -85,7 +88,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun isProgressDone(state: Boolean){
-        binding.progressBar.isVisible = !state
         binding.rvJokes.isVisible = state
+        binding.shimmerLayout.isVisible = !state
     }
 }
