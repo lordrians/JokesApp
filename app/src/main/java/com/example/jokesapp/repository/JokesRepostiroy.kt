@@ -19,6 +19,9 @@ class JokesRepostiroy @Inject constructor(
     private val localDataSource: JokesLocalDataSource
 ): ImpJokesRepository {
 
+    suspend fun getLiveData(): Flow<ApiResponse<List<ResponseJokesItem>>> {
+        return remoteDataSource.getAllJokes()
+    }
     override fun getAllJokes(): Flow<Resource<List<JokesEntity>>> {
         return object : NetworkBoundResource<List<JokesEntity>, List<ResponseJokesItem>>() {
             override fun loadFromDB(): Flow<List<JokesEntity>> {
