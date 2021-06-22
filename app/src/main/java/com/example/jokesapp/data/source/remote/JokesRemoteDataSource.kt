@@ -1,8 +1,10 @@
 package com.example.jokesapp.data.source.remote
 
+import android.util.Log
 import com.example.jokesapp.data.source.remote.network.ApiResponse
 import com.example.jokesapp.data.source.remote.network.ApiService
 import com.example.jokesapp.data.source.remote.response.ResponseJokesItem
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -17,8 +19,9 @@ class JokesRemoteDataSource @Inject constructor(private val apiService: ApiServi
     suspend fun getAllJokes(): Flow<ApiResponse<List<ResponseJokesItem>>> {
         return flow {
             try {
-                val response = apiService.getAllJokes()
-                val dataJokes = response.responseJokes
+                val response = apiService
+
+                val dataJokes = response.getAllJokes()
                 if (dataJokes != null){
                     if (dataJokes.isNotEmpty())
                         emit(ApiResponse.Success(dataJokes))
@@ -27,6 +30,7 @@ class JokesRemoteDataSource @Inject constructor(private val apiService: ApiServi
                 }
             } catch (e: Exception){
                 emit(ApiResponse.Error(e.toString()))
+                Log.i("RemoteDataSource", "getAllJokes: ${e.message} ")
             }
         }.flowOn(Dispatchers.IO)
     }

@@ -5,7 +5,14 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class ResponseJokesItem(
+data class JokesResponse(
+
+	@field:SerializedName("JokesResponse")
+	val jokesResponse: List<JokesResponseItem?>? = null
+) : Parcelable
+
+@Parcelize
+data class JokesResponseItem(
 
 	@field:SerializedName("punchline")
 	val punchline: String? = null,

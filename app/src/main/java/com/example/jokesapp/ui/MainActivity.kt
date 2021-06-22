@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
                         Toast.makeText(this, "${jokes.data}", Toast.LENGTH_SHORT).show()
                         Log.i("MainActivity", "Data ${jokes.data}")
                     }
-                    is Resource.Error -> Log.i("MainActivity", "Data ${jokes.message}")
+                    is Resource.Error -> Log.i("MainActivity", "Data -->${jokes.message}")
                 }
             })
 
