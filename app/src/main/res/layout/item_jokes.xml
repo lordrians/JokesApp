@@ -21,7 +21,7 @@
         android:id="@+id/expandable_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/purple_500"
+        android:background="@color/colorAccent"
         app:el_duration="300"
         app:el_expanded="false">
 

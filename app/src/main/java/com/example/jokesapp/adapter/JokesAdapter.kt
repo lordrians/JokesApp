@@ -54,18 +54,19 @@ class JokesAdapter : RecyclerView.Adapter<JokesAdapter.ViewHolder>(){
                 tvPunchline.text = joke.punchline
 
                 tvSetup.setOnClickListener {
+                    tvSetup.isSelected = true
 
                     if (selectedItem != UNSELECTED){
                         val holder = recyclerView.findViewHolderForAdapterPosition(selectedItem) as ViewHolder
 
                         if (holder.binding != null){
+
+                            holder.binding.tvSetup.isSelected = false
                             holder.binding.expandableLayout.collapse()
                         }
                     }
 
                     if (absoluteAdapterPosition == selectedItem){
-                        Log.i("JokesAdapter", "old: $selectedItem / new: $absoluteAdapterPosition ")
-//                        isExpand = true
                         selectedItem = UNSELECTED
                     } else {
                         selectedItem = absoluteAdapterPosition
