@@ -17,25 +17,26 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    companion object{
-        var oldPosition: Int? = null
-    }
-
     private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
-    private lateinit var chaks: Unit
+    private lateinit var adapter: JokesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val adapter = JokesAdapter()
+        adapter = JokesAdapter()
         binding.rvJokes.layoutManager = LinearLayoutManager(this)
         binding.rvJokes.adapter = adapter
         binding.rvJokes.setHasFixedSize(true)
 
-        chaks = viewModel.jokes
+        observeData()
+
+    }
+
+    private fun observeData() {
+        viewModel.jokes
             .observe(this, { jokes ->
                 when (jokes){
                     is Resource.Loading -> {
@@ -49,13 +50,9 @@ class MainActivity : AppCompatActivity() {
                     is Resource.Error -> {
                         isProgressDone(true)
                         Log.i("MainActivity", "onCreate: ${jokes.message} ")
-
                     }
                 }
             })
-
-
-
     }
 
     private fun isProgressDone(state: Boolean){

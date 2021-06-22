@@ -50,7 +50,6 @@ class JokesAdapter : RecyclerView.Adapter<JokesAdapter.ViewHolder>(){
 
         fun bind(joke: JokesEntity){
             binding.apply {
-                var isExpand = false
                 tvSetup.text = joke.setup
                 tvPunchline.text = joke.punchline
 
